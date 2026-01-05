@@ -1,0 +1,182 @@
+[gd_scene load_steps=6 format=3 uid="uid://gbgct85qrgs8"]
+
+[ext_resource type="Script" uid="uid://cho8un7s5ix4a" path="res://scripts/main_menu.gd" id="1_28flt"]
+[ext_resource type="FontFile" uid="uid://cy78lh4v8c60w" path="res://monogram/ttf/monogram.ttf" id="2_1ehe0"]
+[ext_resource type="Texture2D" uid="uid://c7jh5dcow081v" path="res://FreeAssets/Background/Yellow.png" id="2_48xlc"]
+[ext_resource type="PackedScene" uid="uid://dhbj0ikmy68je" path="res://Scenes/Player.tscn" id="2_ce3w2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ce3w2"]
+bg_color = Color(1, 0.9896667, 0.69, 1)
+
+[node name="Main Menu" type="Node2D"]
+scale = Vector2(1.1102476, 1.1102476)
+script = ExtResource("1_28flt")
+player_scene = ExtResource("2_ce3w2")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1151.0
+offset_bottom = 649.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_48xlc")
+stretch_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Host" type="Button" parent="ButtonManager"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 6.35
+anchor_top = 7.425
+anchor_right = 14.175
+anchor_bottom = 10.125
+grow_horizontal = 2
+grow_vertical = 2
+text = "Host Game
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Join" type="Button" parent="ButtonManager"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 15.2
+anchor_top = 7.425
+anchor_right = 23.025
+anchor_bottom = 10.125
+grow_horizontal = 2
+grow_vertical = 2
+text = "Join Game"
+metadata/_edit_use_anchors_ = true
+
+[node name="Options" type="Button" parent="ButtonManager"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 10.225
+anchor_top = 11.45
+anchor_right = 18.7
+anchor_bottom = 12.75
+grow_horizontal = 0
+grow_vertical = 0
+text = "OPtions (not ready)"
+metadata/_edit_use_anchors_ = true
+
+[node name="Quit" type="Button" parent="ButtonManager"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 10.225
+anchor_top = 13.85
+anchor_right = 18.7
+anchor_bottom = 15.15
+grow_horizontal = 0
+grow_vertical = 0
+text = "QUIT"
+metadata/_edit_use_anchors_ = true
+
+[node name="GameTitle" type="Label" parent="ButtonManager"]
+layout_mode = 0
+offset_left = 153.0
+offset_top = 100.0
+offset_right = 237.0
+offset_bottom = 113.0
+scale = Vector2(10.05, 10.05)
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_fonts/font = ExtResource("2_1ehe0")
+text = "GAME TILEEEEEE"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MadeBy" type="Label" parent="ButtonManager"]
+layout_mode = 0
+offset_top = 606.00006
+offset_right = 142.28854
+offset_bottom = 627.39307
+scale = Vector2(2.01, 2.01)
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_fonts/font = ExtResource("2_1ehe0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ce3w2")
+text = "Made By: QuintinoGames"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="JoinPopup" type="PopupPanel" parent="."]
+oversampling_override = 1.0
+size = Vector2i(308, 247)
+visible = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinPopup"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 304.0
+offset_bottom = 243.0
+
+[node name="Title" type="Label" parent="JoinPopup/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Join Lobby"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="JoinPopup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="JoinPopup/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Enter Lobby ID:"
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="JoinPopup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="LobbyIDInput" type="LineEdit" parent="JoinPopup/VBoxContainer"]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Paste lobby ID here"
+alignment = 1
+
+[node name="Spacer3" type="Control" parent="JoinPopup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="JoinPopup/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="JoinConfirm" type="Button" parent="JoinPopup/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Join"
+
+[node name="Spacer" type="Control" parent="JoinPopup/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="JoinCancel" type="Button" parent="JoinPopup/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Cancel"
+
+[connection signal="pressed" from="ButtonManager/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="ButtonManager/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="ButtonManager/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="ButtonManager/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="JoinPopup/VBoxContainer/ButtonContainer/JoinConfirm" to="." method="_on_join_confirm_pressed"]
+[connection signal="pressed" from="JoinPopup/VBoxContainer/ButtonContainer/JoinCancel" to="." method="_on_join_cancel_pressed"]

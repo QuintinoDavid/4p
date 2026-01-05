@@ -1,0 +1,194 @@
+[gd_scene load_steps=19 format=3 uid="uid://dhbj0ikmy68je"]
+
+[ext_resource type="Texture2D" uid="uid://bkrfgho8hr0e2" path="res://FreeAssets/Main Characters/Ninja Frog/Idle (32x32).png" id="1_f50pn"]
+[ext_resource type="Script" uid="uid://bb653flu4tpve" path="res://scripts/Player.gd" id="1_ij6vw"]
+[ext_resource type="PackedScene" uid="uid://dulcjvt34st7k" path="res://Scenes/HealthBar.tscn" id="3_gntrk"]
+[ext_resource type="PackedScene" uid="uid://45kewam4raqm" path="res://Scenes/gun.tscn" id="4_dewec"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ij6vw"]
+size = Vector2(23, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t88pq"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0x5m"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mrqo"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joorw"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vekm"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yx171"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhmtn"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwjdr"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvtmh"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyih5"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjyg3"]
+atlas = ExtResource("1_f50pn")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ij6vw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t88pq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0x5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mrqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_joorw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vekm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yx171")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhmtn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwjdr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvtmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyih5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjyg3")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 17.0
+}]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gntrk"]
+properties/0/path = NodePath(".:global_position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("HealthBar:value")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:is_dead")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Players"]]
+collision_mask = 6
+script = ExtResource("1_ij6vw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_f50pn")
+region_enabled = true
+region_rect = Rect2(4, 8, 23, 24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Players"]]
+shape = SubResource("RectangleShape2D_ij6vw")
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+wait_time = 0.12
+one_shot = true
+
+[node name="LeftHeadNudge" type="RayCast2D" parent="."]
+position = Vector2(-10, -11)
+target_position = Vector2(0, -2)
+hit_from_inside = true
+
+[node name="RightLedgeHop2" type="RayCast2D" parent="."]
+position = Vector2(11, 8)
+target_position = Vector2(2, 0)
+hit_from_inside = true
+
+[node name="RightLedgeHop" type="RayCast2D" parent="."]
+position = Vector2(11, 10)
+target_position = Vector2(2, 0)
+hit_from_inside = true
+
+[node name="LeftLedgeHop" type="RayCast2D" parent="."]
+position = Vector2(-11, 10)
+target_position = Vector2(-2, 0)
+hit_from_inside = true
+
+[node name="LeftLedgeHop2" type="RayCast2D" parent="."]
+position = Vector2(-11, 8)
+target_position = Vector2(-2, 0)
+hit_from_inside = true
+
+[node name="LeftHeadNudge2" type="RayCast2D" parent="."]
+position = Vector2(-8, -11)
+target_position = Vector2(0, -2)
+hit_from_inside = true
+
+[node name="RightHeadNudge2" type="RayCast2D" parent="."]
+position = Vector2(8, -11)
+target_position = Vector2(0, -2)
+hit_from_inside = true
+
+[node name="RightHeadNudge" type="RayCast2D" parent="."]
+position = Vector2(10, -11)
+target_position = Vector2(0, -2)
+hit_from_inside = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.5, -4)
+sprite_frames = SubResource("SpriteFrames_ij6vw")
+animation = &"new_animation"
+autoplay = "new_animation"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gntrk")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_gntrk")]
+offset_left = -11.0
+offset_top = -17.0
+offset_right = 11.0
+offset_bottom = -15.0
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://45kewam4raqm")
+spawn_path = NodePath("..")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(17, 12)
+zoom = Vector2(2, 2)
+limit_left = -50
+limit_top = -50
+limit_right = 1200
+limit_bottom = 700
+
+[node name="Gun" parent="." instance=ExtResource("4_dewec")]

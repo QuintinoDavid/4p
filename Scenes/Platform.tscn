@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://djpcxve1cxmkx"]
+
+[ext_resource type="Texture2D" uid="uid://u7munjfvdflv" path="res://FreeAssets/Terrain/Terrain (16x16).png" id="1_ibub6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibub6"]
+size = Vector2(48, 5.25)
+
+[node name="AnimatableBody2D" type="AnimatableBody2D"]
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ibub6")
+region_enabled = true
+region_rect = Rect2(272.1741, 15.994734, 47.690796, 5.005266)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ibub6")
+one_way_collision = true

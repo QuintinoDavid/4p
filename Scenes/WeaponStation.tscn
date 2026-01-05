@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://7ih8qlso7ne1"]
+
+[ext_resource type="Script" uid="uid://gct2wo81sxk1" path="res://scripts/weapon_station.gd" id="1_d6lor"]
+[ext_resource type="Texture2D" uid="uid://6hjw67sewvkk" path="res://FreeAssets/Items/Boxes/Box2/Idle.png" id="1_h4tvv"]
+[ext_resource type="FontFile" uid="uid://chm6sh6lxsa56" path="res://monogram/ttf/monogram-extended-italic.ttf" id="2_ldira"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6l7y"]
+size = Vector2(16, 14.666668)
+
+[node name="WeaponStation" type="Area2D" groups=["Box"]]
+collision_layer = 4
+script = ExtResource("1_d6lor")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_h4tvv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.99999917)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_x6l7y")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -24.0
+offset_right = 77.0
+offset_bottom = -9.000002
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_ldira")
+theme_override_font_sizes/font_size = 16
+text = "Press \"f\" for weapon"

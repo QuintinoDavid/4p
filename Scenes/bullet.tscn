@@ -1,0 +1,148 @@
+[gd_scene load_steps=8 format=3 uid="uid://cujr1y5eoj0m3"]
+
+[ext_resource type="Texture2D" uid="uid://qrnh6d4jcdsj" path="res://FreeAssets/art_atlas.png" id="1_xjght"]
+[ext_resource type="Script" uid="uid://fdoay7t7gqh5" path="res://scripts/bullet.gd" id="2_oduel"]
+
+[sub_resource type="Animation" id="Animation_ycag2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oduel"]
+resource_name = "apear"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.016666668, 0.2),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6afsh"]
+resource_name = "remove"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.033333335, 0.2),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_odot3"]
+_data = {
+&"RESET": SubResource("Animation_ycag2"),
+&"apear": SubResource("Animation_oduel"),
+&"remove": SubResource("Animation_6afsh")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oduel"]
+radius = 4.6660914
+height = 9.332183
+
+[node name="Bullet" type="Area2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = -1
+scale = Vector2(1e-05, 1e-05)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("2_oduel")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+show_behind_parent = true
+texture = ExtResource("1_xjght")
+region_enabled = true
+region_rect = Rect2(16, 16, 16, 16)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture = ExtResource("1_xjght")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="shadow" type="Sprite2D" parent="."]
+show_behind_parent = true
+z_index = -1
+texture = ExtResource("1_xjght")
+region_enabled = true
+region_rect = Rect2(16, 16, 16, 16)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_odot3")
+}
+autoplay = "apear"
+speed_scale = 2.0
+
+[node name="ColisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9.536743e-07, 0)
+rotation = 1.5865043
+scale = Vector2(1, 1.5)
+shape = SubResource("CapsuleShape2D_oduel")
+
+[node name="DistanceTimeout" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="DistanceTimeout" to="." method="_on_distance_timeout_timeout"]

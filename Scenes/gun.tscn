@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://45kewam4raqm"]
+
+[ext_resource type="Texture2D" uid="uid://qrnh6d4jcdsj" path="res://FreeAssets/art_atlas.png" id="1_nxj5y"]
+[ext_resource type="Script" uid="uid://ceper1ve8phj8" path="res://scripts/gun.gd" id="1_oqrbh"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_oqrbh"]
+properties/0/path = NodePath(".:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("RotationOffset:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("RotationOffset/Sprite2D:flip_v")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[node name="Gun" type="Node2D"]
+script = ExtResource("1_oqrbh")
+
+[node name="RotationOffset" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="RotationOffset"]
+position = Vector2(32, 0)
+texture = ExtResource("1_nxj5y")
+region_enabled = true
+region_rect = Rect2(33, 3, 14, 10)
+
+[node name="shadow" type="Sprite2D" parent="RotationOffset/Sprite2D"]
+modulate = Color(0, 0, 0, 0.21568628)
+z_index = -1
+z_as_relative = false
+texture = ExtResource("1_nxj5y")
+region_enabled = true
+region_rect = Rect2(33, 3, 14, 10)
+
+[node name="shoot_pos" type="Marker2D" parent="RotationOffset/Sprite2D"]
+position = Vector2(6, -2)
+
+[node name="ShotTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_oqrbh")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cujr1y5eoj0m3")
+spawn_path = NodePath("../RotationOffset/Sprite2D/shoot_pos")
+
+[connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
