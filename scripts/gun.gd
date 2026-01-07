@@ -8,6 +8,8 @@ const bullet_scene = preload("res://Scenes/bullet.tscn")
 
 var shoot_cooldown: float = 0.5
 var can_shoot: bool = true
+var bullet_damage: float = 10.0
+var bullet_speed: float = 250.0
  
 func _ready() -> void:
 	$ShotTimer.wait_time = shoot_cooldown
@@ -28,12 +30,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		$RotationOffset/Sprite2D.flip_v = false
 	if Input.is_action_just_pressed("shoot") and can_shoot:
-		_shoot.rpc(multiplayer.get_unique_id())
+		_shoot.rpc(multiplayer.get_unique_id(), bullet_damage, bullet_speed)
 		can_shoot = false
 		$ShotTimer.start()
 
 @rpc("call_local")
-func _shoot(data):
+func _shoot(data, damage: float, speed: float):
 	# Check if gun is still valid and in tree
 	if not is_inside_tree():
 		return
@@ -47,6 +49,8 @@ func _shoot(data):
 	var new_bullet = bullet_scene.instantiate()
 	new_bullet.global_position = ShootPos.global_position
 	new_bullet.global_rotation = ShootPos.global_rotation
+	new_bullet.damage = damage
+	new_bullet.speed = speed
 	new_bullet.set_multiplayer_authority(data)
 	new_bullet.shooter_id = data 
 	game_node.add_child(new_bullet)

@@ -35,8 +35,6 @@ func _on_body_entered(body: Node2D) -> void:
 
 @rpc("any_peer", "call_local")
 func remove_bullet():
-	print("Removing bullet")
-	# Check if bullet is still valid
 	if not is_inside_tree():
 		return
 	queue_free()

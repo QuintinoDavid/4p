@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://dhbj0ikmy68je"]
+[gd_scene load_steps=21 format=3 uid="uid://dhbj0ikmy68je"]
 
 [ext_resource type="Texture2D" uid="uid://bkrfgho8hr0e2" path="res://FreeAssets/Main Characters/Ninja Frog/Idle (32x32).png" id="1_f50pn"]
 [ext_resource type="Script" uid="uid://bb653flu4tpve" path="res://scripts/Player.gd" id="1_ij6vw"]
 [ext_resource type="PackedScene" uid="uid://dulcjvt34st7k" path="res://Scenes/HealthBar.tscn" id="3_gntrk"]
 [ext_resource type="PackedScene" uid="uid://45kewam4raqm" path="res://Scenes/gun.tscn" id="4_dewec"]
+[ext_resource type="PackedScene" uid="uid://d07gehvike451" path="res://Scenes/loser_pop_up.tscn" id="5_nn08x"]
+[ext_resource type="PackedScene" uid="uid://b6b4o1rhr4d6q" path="res://Scenes/winner_pop_up.tscn" id="6_52ee3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ij6vw"]
 size = Vector2(23, 24)
@@ -192,3 +194,7 @@ limit_right = 1200
 limit_bottom = 700
 
 [node name="Gun" parent="." instance=ExtResource("4_dewec")]
+
+[node name="LoserPopUp" parent="." instance=ExtResource("5_nn08x")]
+
+[node name="WinnerPopUp" parent="." instance=ExtResource("6_52ee3")]

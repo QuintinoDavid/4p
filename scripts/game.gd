@@ -56,6 +56,19 @@ func _on_player_died(dead_player_id: int, killer_id: int):
 	if alive_count <= 1:
 		print("Round over! Only " + str(alive_count) + " player(s) alive")
 		
+		# Show popups to each player using RPC
+		for player in players:
+			if player != null:
+				var player_id = int(player.name)
+				if player.is_dead:
+					# Call show_loser_popup on the losing player's machine
+					print("Calling loser popup for player " + str(player_id))
+					player.show_loser_popup_rpc.rpc_id(player_id)
+				else:
+					# Call show_winner_popup on the winning player's machine
+					print("Calling winner popup for player " + str(player_id))
+					player.show_winner_popup_rpc.rpc_id(player_id)
+		
 		# Award point to survivor
 		if alive_count == 1 and survivor_id != -1:
 			add_score.rpc(survivor_id, 1)

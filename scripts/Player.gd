@@ -4,15 +4,25 @@ extends CharacterBody2D
 @onready var CoyoteTimer: Timer = $CoyoteTimer
 @onready var JumpBufferTimer: Timer = $JumpBufferTimer
 @onready var health_bar : ProgressBar = $HealthBar
+@onready var loser_popup: CanvasLayer = $LoserPopUp
+@onready var winner_popup: CanvasLayer = $WinnerPopUp
+
 @export var maxHealth: float = 40
 @export var is_dead: bool = false
 var coyote_time_activated: bool = false
+
+var base_stats = {
+	"maxHealth": 40,
+	"max_speed": 200
+}
+
+var active_powerups: Array = []
 
 const jump_height: float = -500
 var gravity: float = 12
 const max_gravity: float = 14.5
 
-const max_speed: float = 200
+var max_speed: float = 200
 const acceleration: float = 8
 const friction: float = 10
 
@@ -53,6 +63,9 @@ func _ready() -> void:
 	if gun:
 		gun.visible = false
 		has_gun = false
+	
+	if loser_popup:
+		loser_popup.powerup_selected.connect(apply_powerup)
 
 func _on_global_box_entered(_box_instance, _body):
 	if not is_multiplayer_authority():
@@ -205,6 +218,12 @@ func respawn():
 	is_dead = false
 	velocity = Vector2.ZERO
 	
+	# Hide popups when respawning
+	# if loser_popup:
+	# 	loser_popup.hide_popup()
+	# if winner_popup:
+	# 	winner_popup.hide_popup()
+	
 	# Only the authority (the player themselves) should set their position
 	if is_multiplayer_authority():
 		# Hide gun when respawning
@@ -233,8 +252,34 @@ func respawn():
 	visible = true
 	
 	print("Player " + str(name) + " respawned at position: " + str(global_position))
-	
+
+
+func add_powerup(powerup: PowerUp) -> void:
+	active_powerups.append(powerup)
+	powerup.apply(self)
+
 func remove_gun():
 	if gun and has_gun:
 		gun.visible = false
 		has_gun = false
+
+@rpc("any_peer", "call_local", "reliable")
+func show_winner_popup_rpc():
+	print("DEBUG: condition, authority=" + str(is_multiplayer_authority()) + ", winner_popup=" + str(winner_popup != null))
+	if is_multiplayer_authority() and winner_popup != null:
+		print("Showing winner popup for player " + str(name))
+		winner_popup.show_popup()
+
+@rpc("any_peer", "call_local", "reliable")
+func show_loser_popup_rpc():
+	print("DEBUG: condition, authority=" + str(is_multiplayer_authority()) + ", loser_popup=" + str(loser_popup != null))
+	if is_multiplayer_authority() and loser_popup != null:
+		print("Showing loser popup for player " + str(name))
+		loser_popup.show_popup()
+
+func apply_powerup(powerup: PowerUp):
+	if not is_multiplayer_authority():
+		return
+	print("Player " + str(name) + " applying powerup: " + powerup.display_name)
+	active_powerups.append(powerup)
+	powerup.apply(self)
