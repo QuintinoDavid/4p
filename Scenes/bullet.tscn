@@ -97,7 +97,7 @@ _data = {
 radius = 4.6660914
 height = 9.332183
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" groups=["Bullets"]]
 modulate = Color(1, 1, 1, 0)
 z_index = -1
 scale = Vector2(1e-05, 1e-05)

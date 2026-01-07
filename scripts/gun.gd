@@ -11,11 +11,6 @@ var can_shoot: bool = true
  
 func _ready() -> void:
 	$ShotTimer.wait_time = shoot_cooldown
-	# Disable synchronizer if we're not the authority
-	var sync = get_node("MultiplayerSynchronizer")
-	if not is_multiplayer_authority():
-		sync.set_process(false)
-		sync.set_physics_process(false)
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():

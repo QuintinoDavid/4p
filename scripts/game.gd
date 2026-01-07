@@ -41,7 +41,7 @@ func _on_peer_connected(pid: int):
 func _on_peer_disconnected(pid: int):
 	print("Peer " + str(pid) + " disconnected!")
 
-func _on_player_died(dead_player_id: int, killer_id: int):
+func _on_player_died(dead_player_id: int, killer_id: int):	
 	print("Player " + str(dead_player_id) + " died. Killer: " + str(killer_id))
 	
 	# Count alive players
@@ -62,7 +62,14 @@ func _on_player_died(dead_player_id: int, killer_id: int):
 			print("Player " + str(survivor_id) + " wins the round!")
 		
 		# Clear all bullets from the scene
-		get_tree().call_group("bullets", "queue_free")
+		var bullets = get_tree().get_nodes_in_group("Bullets")
+		print ("Removing " + str(bullets.size()) + " bullets from scene")
+		for bullet in bullets:
+			# Stop any ongoing animations to prevent double deletion
+			if bullet.has_node("AnimationPlayer"):
+				bullet.get_node("AnimationPlayer").stop()
+			if bullet.has_method("remove_bullet"):
+				bullet.remove_bullet.rpc()
 
 		respawn_players()
 	else:

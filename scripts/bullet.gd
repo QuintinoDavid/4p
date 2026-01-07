@@ -9,11 +9,9 @@ var did_damage: bool = false
 var shooter_id: int = -1
 
 func _ready():
-	add_to_group("bullets")
 	z_as_relative = false  
 	z_index = 10          
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	global_position += Vector2(1, 0).rotated(rotation) * speed * delta
 	Shadow.position = Vector2(-2, -2).rotated(-rotation) 
@@ -35,8 +33,9 @@ func _on_body_entered(body: Node2D) -> void:
 			body.take_damage.rpc(damage, shooter_id)
 		AnimPlayer.play("remove")
 
-@rpc("call_local")
+@rpc("any_peer", "call_local")
 func remove_bullet():
+	print("Removing bullet")
 	# Check if bullet is still valid
 	if not is_inside_tree():
 		return
