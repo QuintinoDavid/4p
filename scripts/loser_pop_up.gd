@@ -35,4 +35,5 @@ func randomize_powerups():
 func _on_any_button_pressed(button: Button):
 	var powerup = button.get_meta("powerup") as PowerUp
 	powerup_selected.emit(powerup)
+	
 	hide_popup()

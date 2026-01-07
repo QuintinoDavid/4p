@@ -115,7 +115,6 @@ metadata/_edit_use_anchors_ = true
 [node name="JoinPopup" type="PopupPanel" parent="."]
 oversampling_override = 1.0
 size = Vector2i(308, 247)
-visible = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="JoinPopup"]
 offset_left = 4.0

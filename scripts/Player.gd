@@ -81,16 +81,12 @@ func _on_global_box_exited(_box_instance, _body):
 
 func _physics_process(delta: float) -> void:
 	# Only process input if this is our player
-	if not is_multiplayer_authority():
+	if not is_multiplayer_authority() or is_dead or loser_popup.visible or winner_popup.visible:
 		return
 	
 	# DEBUG: Press ESC to make the player die
 	if Input.is_action_just_pressed("ui_cancel"):  # ESC key
 		die()
-	
-	# Don't process input if dead
-	if is_dead:
-		return
 	
 	if can_get_gun and Input.is_action_just_pressed("get_weapon") and !has_gun:
 		if gun:
@@ -265,17 +261,28 @@ func remove_gun():
 
 @rpc("any_peer", "call_local", "reliable")
 func show_winner_popup_rpc():
-	print("DEBUG: condition, authority=" + str(is_multiplayer_authority()) + ", winner_popup=" + str(winner_popup != null))
 	if is_multiplayer_authority() and winner_popup != null:
 		print("Showing winner popup for player " + str(name))
 		winner_popup.show_popup()
 
 @rpc("any_peer", "call_local", "reliable")
+func hide_winner_popup_rpc():
+	if is_multiplayer_authority() and winner_popup != null:
+		print("Hiding winner popup for player " + str(name))
+		winner_popup.hide_popup()
+
+
+@rpc("any_peer", "call_local", "reliable")
 func show_loser_popup_rpc():
-	print("DEBUG: condition, authority=" + str(is_multiplayer_authority()) + ", loser_popup=" + str(loser_popup != null))
 	if is_multiplayer_authority() and loser_popup != null:
 		print("Showing loser popup for player " + str(name))
 		loser_popup.show_popup()
+
+@rpc("any_peer", "call_local", "reliable")
+func hide_loser_popup_rpc():
+	if is_multiplayer_authority() and loser_popup != null:
+		print("Hiding loser popup for player " + str(name))
+		loser_popup.hide_popup()
 
 func apply_powerup(powerup: PowerUp):
 	if not is_multiplayer_authority():
@@ -283,3 +290,8 @@ func apply_powerup(powerup: PowerUp):
 	print("Player " + str(name) + " applying powerup: " + powerup.display_name)
 	active_powerups.append(powerup)
 	powerup.apply(self)
+	
+	# Notify game that this player is ready
+	var game_node = get_tree().current_scene
+	if game_node and game_node.has_method("player_ready"):
+		game_node.player_ready.rpc(int(name))
