@@ -204,6 +204,60 @@ position = Vector2(501, 126)
 [node name="Platform7" parent="Platforms" instance=ExtResource("1_kldst")]
 position = Vector2(646, 126)
 
+[node name="Instruction_labels" type="Node2D" parent="."]
+
+[node name="instructions" type="Label" parent="Instruction_labels"]
+offset_left = 115.00001
+offset_top = 80.0
+offset_right = 277.0
+offset_bottom = 125.0
+scale = Vector2(0.9, 0.9)
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 16
+text = "Use 'wads' to move and jump
+mouse click to shoot"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="instructions2" type="Label" parent="Instruction_labels"]
+offset_left = 890.0
+offset_top = 80.0
+offset_right = 1052.0
+offset_bottom = 125.0
+scale = Vector2(0.9, 0.9)
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 16
+text = "Use 'wads' to move and jump
+mouse click to shoot"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="instructions3" type="Label" parent="Instruction_labels"]
+offset_left = 163.0
+offset_top = 459.00003
+offset_right = 325.0
+offset_bottom = 504.00003
+scale = Vector2(0.9, 0.9)
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 16
+text = "Use 'wads' to move and jump
+mouse click to shoot"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="instructions4" type="Label" parent="Instruction_labels"]
+offset_left = 845.0
+offset_top = 459.00003
+offset_right = 1007.0
+offset_bottom = 504.00003
+scale = Vector2(0.9, 0.9)
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 16
+text = "Use 'wads' to move and jump
+mouse click to shoot"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="WeaponStations" type="Node2D" parent="."]
 
 [node name="WeaponStation1" parent="WeaponStations" instance=ExtResource("4_kldst")]
@@ -239,19 +293,6 @@ position = Vector2(111, 479)
 
 [node name="Spawner4" type="Marker2D" parent="Level"]
 position = Vector2(1038, 479)
-
-[node name="instructions" type="Label" parent="."]
-offset_left = 115.00001
-offset_top = 80.0
-offset_right = 277.0
-offset_bottom = 125.0
-scale = Vector2(0.9, 0.9)
-theme_override_fonts/font = ExtResource("5_b2bpf")
-theme_override_font_sizes/font_size = 16
-text = "Use 'wads' to move and jump
-mouse click to shoot"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -4096

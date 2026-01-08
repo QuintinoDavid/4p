@@ -191,7 +191,7 @@ func close_all_popups():
 			if player.loser_popup:
 				player.hide_loser_popup_rpc.rpc_id(player_id)
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local")
 func show_victory_screen(winner_id: int):
 	print("Game Over! Player " + str(winner_id) + " wins the match!")
 	

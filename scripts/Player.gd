@@ -185,26 +185,30 @@ func die(shooter_id = -1):
 	# Only the authority (the player themselves) should handle their death
 	if not is_multiplayer_authority():
 		return	
-	# Mark as dead
-	is_dead = true
 	
-	# Hide
-	visible = false
-
-	# Hide gun if has one
-	if gun and has_gun:
-		gun.visible = false
-		has_gun = false
-
-	# Reset health for next round
 	health_bar._set_health(maxHealth)
+	_handle_death_visuals.rpc()
 	
 	# Notify game that this player died
 	var game_node = get_tree().current_scene
 	if game_node and game_node.has_signal("player_died"):
 		game_node.player_died.emit(int(str(name)), shooter_id)
+
+@rpc("any_peer", "call_local", "reliable")
+func _handle_death_visuals():
+	# This runs on ALL clients to synchronize death state
+	is_dead = true
+	visible = false
 	
+	# Disable collision layers
+	set_collision_layer_value(1, false)
+	set_collision_mask_value(1, false)
+	set_collision_mask_value(2, false)
+	set_collision_mask_value(3, false)
 	
+	if gun and has_gun:
+		gun.visible = false
+		has_gun = false
 
 @rpc("any_peer", "call_local", "reliable")
 func respawn():
@@ -213,6 +217,12 @@ func respawn():
 	health_bar.get_node("DamageBar").value = maxHealth
 	is_dead = false
 	velocity = Vector2.ZERO
+	
+	# Re-enable collision layers
+	set_collision_layer_value(1, true)   # Enable player collision layer
+	set_collision_mask_value(1, true)    # Enable collision with other players
+	set_collision_mask_value(2, true)    # Enable collision with bullets
+	set_collision_mask_value(3, true)    # Enable collision with platforms
 	
 	# Hide popups when respawning
 	# if loser_popup:
